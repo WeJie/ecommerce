@@ -1,65 +1,36 @@
 define([
-    'routers/page_router',
+    'routers/coupon_router',
     'pages/enterprise_coupon_list_page',
     'pages/enterprise_coupon_create_page',
     'pages/enterprise_coupon_detail_page',
     'pages/enterprise_coupon_edit_page'
 ],
-    function(PageRouter,
-              CouponListPage,
-              CouponCreatePage,
-              CouponDetailPage,
-              CouponEditPage) {
+    function(CouponRouter,
+              EnterpriseCouponListPage,
+              EnterpriseCouponCreatePage,
+              EnterpriseCouponDetailPage,
+              EnterpriseCouponEditPage) {
         'use strict';
 
-        return PageRouter.extend({
+        return CouponRouter.extend({
 
             // Base/root path of the app
             root: '/enterprise/coupons/',
 
-            routes: {
-                '(/)': 'index',
-                'new(/)': 'new',
-                ':id(/)': 'show',
-                ':id/edit(/)': 'edit',
-                '*path': 'notFound'
+            getListPage: function() {
+                return new EnterpriseCouponListPage();
             },
 
-            /**
-             * Display a list of all codes in the system.
-             */
-            index: function() {
-                var page = new CouponListPage();
-                this.currentView = page;
-                this.$el.html(page.el);
+            getCreatePage: function() {
+                return new EnterpriseCouponCreatePage();
             },
 
-            /**
-             * Display a form for creating a new enrollment code.
-             */
-            new: function() {
-                var page = new CouponCreatePage();
-                this.currentView = page;
-                this.$el.html(page.el);
+            getDetailPage: function(id) {
+                return new EnterpriseCouponDetailPage({id: id});
             },
 
-            /**
-             * Display details for a single coupon.
-             * @param {String} id - ID of the coupon to display.
-             */
-            show: function(id) {
-                var page = new CouponDetailPage({id: id});
-                this.currentView = page;
-                this.$el.html(page.el);
-            },
-
-            /**
-             * Display a form for editing an existing coupon.
-             */
-            edit: function(id) {
-                var page = new CouponEditPage({id: id});
-                this.currentView = page;
-                this.$el.html(page.el);
+            getEditPage: function(id) {
+                return new EnterpriseCouponEditPage({id: id});
             }
         });
     }
